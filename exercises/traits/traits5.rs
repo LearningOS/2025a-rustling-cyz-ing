@@ -20,7 +20,7 @@ pub trait OtherTrait {
         true
     }
 }
-
+1
 struct SomeStruct {}
 struct OtherStruct {}
 
