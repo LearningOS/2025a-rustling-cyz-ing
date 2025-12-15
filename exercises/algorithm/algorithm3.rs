@@ -7,6 +7,14 @@
 
 fn sort<T>(array: &mut [T]){
 	//TODO
+    let n = array.len();
+    for i in 0..n {
+        for j in 0..n - i - 1 {
+            if array[j] > array[j + 1] {
+                array.swap(j, j + 1);
+            }
+        }
+    }
 }
 #[cfg(test)]
 mod tests {
