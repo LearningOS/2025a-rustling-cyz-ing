@@ -51,12 +51,23 @@ where
     // Insert a value into the BST
     fn insert(&mut self, value: T) {
         //TODO
+        match &mut self.root {
+            None => {
+                self.root = Some(Box::new(TreeNode::new(value)));
+            }
+            Some(node) => {
+                node.insert(value);
+            }
+        }
     }
 
     // Search for a value in the BST
     fn search(&self, value: T) -> bool {
         //TODO
-        true
+        match &self.root {
+            None => false,  // 空树
+            Some(node) => node.search(&value),
+        }
     }
 }
 
@@ -67,6 +78,56 @@ where
     // Insert a node into the tree
     fn insert(&mut self, value: T) {
         //TODO
+        match value.cmp(&self.value) {
+            Ordering::Less => {
+                // 插入值小于当前节点值，应该放到左子树
+                match &mut self.left {
+                    None => {
+                        // 创建新节点并存入值
+                        self.left = Some(Box::new(TreeNode::new(value)));
+                    }
+                    Some(left_node) => {
+                        // 递归插入
+                        left_node.insert(value);
+                    }
+                }
+            }
+            Ordering::Greater => {
+                // 插入值大于当前节点值，应该放到右子树
+                match &mut self.right {
+                    None => {
+                        // 创建新节点并存入值
+                        self.right = Some(Box::new(TreeNode::new(value)));
+                    }
+                    Some(right_node) => {
+                        // 递归插入
+                        right_node.insert(value);
+                    }
+                }
+            }
+            Ordering::Equal => {
+
+            }
+        }
+    }
+    fn search(&self, value: &T) -> bool {
+        match value.cmp(&self.value) {
+            Ordering::Less => {
+                // 要查找的值小于当前节点值，在左子树中查找
+                match &self.left {
+                    None => false,  
+                    Some(left_node) => left_node.search(value),
+                }
+            }
+            Ordering::Greater => {
+                // 要查找的值大于当前节点值，在右子树中查找
+                match &self.right {
+                    None => false,  
+                    Some(right_node) => right_node.search(value),
+                }
+            }
+            Ordering::Equal => true,  // 找到值
+        }
     }
 }
 
