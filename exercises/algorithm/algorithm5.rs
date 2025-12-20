@@ -29,9 +29,27 @@ impl Graph {
     fn bfs_with_return(&self, start: usize) -> Vec<usize> {
         
 		//TODO
+            let n = self.adj.len();
+            let mut visit_order = Vec::new();
+            if start >= n {
+              return visit_order;
+            }
 
-        let mut visit_order = vec![];
-        visit_order
+            let mut visited = vec![false; n];
+            let mut queue = VecDeque::new();
+            visited[start] = true;
+            queue.push_back(start);
+            while let Some(u) = queue.pop_front() {
+                visit_order.push(u);
+                // 按邻接表顺序访问相邻节点
+                for &v in &self.adj[u] {
+                   if !visited[v] {
+                   visited[v] = true;
+                   queue.push_back(v);
+                }
+              }
+            }
+            visit_order
     }
 }
 
