@@ -67,15 +67,25 @@ impl<T> myStack<T> {
         }
     }
     pub fn push(&mut self, elem: T) {
-        //TODO
+        self.q2.enqueue(elem);
+        // 2. 把 q1 中所有元素转移到 q2
+        while !self.q1.is_empty() {
+            let v = self.q1.dequeue().unwrap();
+            self.q2.enqueue(v);
+        }
+        // 3. 交换 q1 和 q2
+        std::mem::swap(&mut self.q1, &mut self.q2);
     }
     pub fn pop(&mut self) -> Result<T, &str> {
-        //TODO
-		Err("Stack is empty")
+		if self.q1.is_empty() {
+            Err("Stack is empty")
+        } else {
+            self.q1.dequeue()
+        }
     }
     pub fn is_empty(&self) -> bool {
 		//TODO
-        true
+        self.q1.is_empty()
     }
 }
 

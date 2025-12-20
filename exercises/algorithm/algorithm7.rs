@@ -120,7 +120,8 @@ fn bracket_match(bracket: &str) -> bool
                     if !matches!(
                         (top, ch),
                         ('(', ')') | ('{', '}') | ('[', ']')
-                    ) {
+                    ) 
+					{
                         return false;
                     }
                 } 
