@@ -32,7 +32,12 @@ impl<T> Stack<T> {
 	}
 	fn pop(&mut self) -> Option<T> {
 		// TODO
-		None
+	    let res = self.data.pop();
+		if res.is_some()
+		{
+			 self.size -= 1;
+		}
+		res
 	}
 	fn peek(&self) -> Option<&T> {
 		if 0 == self.size {
@@ -102,7 +107,33 @@ impl<'a, T> Iterator for IterMut<'a, T> {
 fn bracket_match(bracket: &str) -> bool
 {
 	//TODO
-	true
+	let mut stack = Stack::new();
+    for ch in bracket.chars() {
+        match ch {
+            '(' | '{' | '[' => {
+                // 左括号入栈
+                stack.push(ch);
+            }
+            ')' | '}' | ']' => {
+                // 右括号：弹栈并匹配
+                if let Some(top) = stack.pop() {
+                    if !matches!(
+                        (top, ch),
+                        ('(', ')') | ('{', '}') | ('[', ']')
+                    ) {
+                        return false;
+                    }
+                } 
+				else {
+                    // 栈空却遇到右括号
+                    return false;
+                }
+            }
+            _ => {} // 其他字符忽略
+        }
+    }
+    // 最后栈必须为空才算全部匹配
+    stack.is_empty()
 }
 
 #[cfg(test)]
